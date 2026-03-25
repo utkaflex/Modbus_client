@@ -1,0 +1,61 @@
+﻿<Window x:Class="Modbus_client.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Modbus_client"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="500" Width="575">
+    <TabControl>
+        <TabItem Header="Подключение">
+            <StackPanel Margin="20">
+                <TextBlock Text="Подключение к устройству по протоколу Modbus" 
+                           FontSize="20" Margin="0,0,0,20"/>
+                <TextBlock Text="COM-порт:" HorizontalAlignment="Center"/>
+                <TextBox Text="{Binding PortName, UpdateSourceTrigger=PropertyChanged}" 
+                 Width="150" HorizontalAlignment="Center"
+                 xml:lang="ru-RU"/>
+                <Button Content="Подключить" Command="{Binding ConnectCommand}"
+                Width="100" HorizontalAlignment="Center" Margin="0,10,0,0"/>
+                <Button Content="Отключить" Command="{Binding DisconnectCommand}"
+                Width="100" HorizontalAlignment="Center" Margin="0,5,0,0"/>
+                <TextBlock Text="{Binding Status}" Margin="0,10,0,0" Foreground="Black" HorizontalAlignment="Center"/>
+            </StackPanel>
+        </TabItem>
+        <TabItem Header="Регистры">
+            <StackPanel Margin="20">
+                <DataGrid ItemsSource="{Binding Registers}" 
+                  AutoGenerateColumns="False"
+                  IsReadOnly="True"
+                  Margin="0,0,0,20" Width="200">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Адрес" Binding="{Binding IndexName}" Width="100">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="HorizontalAlignment" Value="Center"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+                        <DataGridTextColumn Header="Значение" Binding="{Binding Value}" Width="100">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="HorizontalAlignment" Value="Center"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+                <TextBlock Text="Записать значение в регистр 12:" HorizontalAlignment="Center"/>
+                <TextBox Text="{Binding WriteValue, UpdateSourceTrigger=PropertyChanged}" 
+                 Width="100" HorizontalAlignment="Center"/>
+                <Button Content="Записать" Command="{Binding WriteRegister12Command}"
+                Width="100" HorizontalAlignment="Center" Margin="0,10,0,0"/>
+                <TextBlock Text="{Binding Error}" Foreground="Red" Margin="0,5,0,0" HorizontalAlignment="Center"/>
+            </StackPanel>
+        </TabItem>
+        <TabItem Header="Журнал">
+            <ListBox ItemsSource="{Binding Log}" 
+             Margin="20"/>
+        </TabItem>
+    </TabControl>
+</Window>
